@@ -1,0 +1,100 @@
+{
+  "name": "ionic-hello-world",
+  "author": "Ionic Framework",
+  "homepage": "http://ionicframework.com/",
+  "private": true,
+  "scripts": {
+    "dbs-connector-app": "node dbs-client-server/server.js",
+    "clean": "ionic-app-scripts clean",
+    "build": "ionic-app-scripts build && node dbs-client-server/server.js",
+    "ionic:build": "ionic-app-scripts build",
+    "ionic:serve": "ionic-app-scripts serve"
+  },
+  "dependencies": {
+    "@angular/common": "4.0.0",
+    "@angular/compiler": "4.0.0",
+    "@angular/compiler-cli": "4.0.0",
+    "@angular/core": "4.0.0",
+    "@angular/forms": "4.0.0",
+    "@angular/http": "4.0.0",
+    "@angular/platform-browser": "4.0.0",
+    "@angular/platform-browser-dynamic": "4.0.0",
+    "@angular/router": "4.0.0",
+    "@ionic-native/core": "^3.4.2",
+    "@ionic-native/splash-screen": "3.4.2",
+    "@ionic-native/status-bar": "3.4.2",
+    "@ionic/storage": "2.0.1",
+    "angular2-uuid": "^1.1.1",
+    "atob": "^2.1.2",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
+    "cordova-android": "7.1.4",
+    "cordova-ios": "4.5.5",
+    "cordova-plugin-console": "^1.0.5",
+    "cordova-plugin-device": "^1.1.4",
+    "cordova-plugin-splashscreen": "^4.0.3",
+    "cordova-plugin-statusbar": "^2.2.1",
+    "cordova-plugin-whitelist": "^1.3.1",
+    "express": "^4.16.4",
+    "helmet": "^3.14.0",
+    "implement-js": "0.0.26",
+    "ionic-angular": "3.0.1",
+    "ionic-plugin-deeplinks": "^1.0.17",
+    "ionic-plugin-keyboard": "^2.2.1",
+    "ionicons": "3.0.0",
+    "marketcloud-js": "^2.0.3",
+    "node-cache": "^4.2.0",
+    "random-number-csprng": "^1.0.2",
+    "request": "^2.88.0",
+    "rxjs": "^5.1.1",
+    "sw-toolbox": "3.4.0",
+    "uuid": "^3.3.2",
+    "yargs": "^12.0.2",
+    "zone.js": "^0.8.4"
+  },
+  "devDependencies": {
+    "@ionic/app-scripts": "1.3.0",
+    "@ionic/cli-plugin-ionic-angular": "^1.2.0",
+    "typescript": "~2.2.1"
+  },
+  "cordovaPlugins": [
+    "cordova-plugin-whitelist",
+    "cordova-plugin-statusbar",
+    "cordova-plugin-console",
+    "cordova-plugin-device",
+    "cordova-plugin-splashscreen",
+    "ionic-plugin-keyboard"
+  ],
+  "cordovaPlatforms": [],
+  "description": "ionic2-marketcloud: An Ionic project",
+  "config": {
+    "port": "8080",
+    "host": "ericsohhaofeng.com",
+    "allowed-origin": "ericsohhaofeng.com",
+    "activate-stubbing": "true",
+    "client-id": "a881d5f2-12d1-4789-9f41-a6a2033bb631",
+    "client-secret": "9468ae0e-fa34-4878-8c9b-9da36543c0a9",
+    "oauth-redirect-uri": "http://ericsohhaofeng.com:8080/dbs-oauth/callback",
+    "dbs-rewards-merchant-id": "ericsohhaofeng-shop-1",
+    "custom-uri-scheme": "ericsoh"
+  },
+  "cordova": {
+    "plugins": {
+      "ionic-plugin-deeplinks": {
+        "URL_SCHEME": "ericsoh",
+        "DEEPLINK_SCHEME": "https",
+        "DEEPLINK_HOST": "ericsohhaofeng.com:8080"
+      },
+      "ionic-plugin-keyboard": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-console": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {}
+    },
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  }
+}

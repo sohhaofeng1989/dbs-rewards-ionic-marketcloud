@@ -1,0 +1,87 @@
+<!--
+  Generated template for the OrderCompleteModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Checkout complete</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding style="text-align: center" *ngIf="provider != 'dbs'">
+<ion-icon name="checkmark-circle" color="secondary" style="font-size:48px;"></ion-icon>
+<h1 ion-text color="secondary">Wohooo!</h1>
+<p>We received your order and payment, you will find a confirmation email in your inbox and we will let you know when we ship your package!</p>
+</ion-content>
+
+<ion-content padding style="text-align: center" *ngIf="provider == 'dbs'">
+<ion-icon name="checkmark-circle" color="secondary" style="font-size:48px;"></ion-icon>
+<h1 ion-text color="secondary">Wohooo!</h1>
+<p>You have successfully carried out a DBS Rewards Point redemption! Below are the details</p>
+
+  <ion-card-content style="border: #f4f4f4 solid 2.5px;">
+     <ion-item-group>
+      <ion-item-divider style="font-size: 15px;" color="light">Reference ID</ion-item-divider>
+      <ion-item style="text-align: right; font-size: 15px;">{{orderDisplayDetails.referenceId}}</ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider style="font-size: 15px;" color="light">Remaining Rewards (Points)</ion-item-divider>
+      <ion-item style="text-align: right; font-size: 15px;">{{orderDisplayDetails.remainingPoints}}</ion-item>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider style="font-size: 15px;" color="light">Remaining Rewards ($)</ion-item-divider>
+      <ion-item style="text-align: right; font-size: 15px;">{{orderDisplayDetails.remainingCashValue.currency}} ${{orderDisplayDetails.remainingCashValue.amount}}</ion-item>
+    </ion-item-group>                
+  </ion-card-content>
+
+  <ion-card-content style="border: #f4f4f4 solid 2.5px;">
+        <ion-grid>
+          <ion-row>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              Points Redeemed
+            </ion-col>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              Amount per Point
+            </ion-col>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              Cash Redeemed
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              {{orderDisplayDetails.redeemedPoints}}
+            </ion-col>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              {{orderDisplayDetails.pointCoversionRate}}
+            </ion-col>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              {{orderDisplayDetails.redeemAmount}}
+            </ion-col>
+          </ion-row>
+          <ion-row style="margin-top: 38px;text-align: right;">
+            <ion-col>
+              Remaining Balance for Full Checkout
+            </ion-col>
+            <ion-col>
+              {{orderDisplayDetails.remainingBalanceToPay}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+    </ion-card-content>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    
+      <button ion-button color="success" block (click)="returnHome()">
+        Awesome!
+      </button>
+    
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,268 @@
+<!--
+  Generated template for the CheckoutPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<style type="text/css">
+  .hosted-field {
+    margin: 10px;
+  border: 0px;
+  border-bottom: 2px solid #ccc;
+  height: 32px;
+  -webkit-transition: border-color 160ms;
+  transition: border-color 160ms;
+}
+
+#credit-card-number.braintree-hosted-fields-focused {
+  border-color: #777;
+}
+
+#credit-card-number.braintree-hosted-fields-invalid {
+  border-color: tomato;
+}
+
+#credit-card-number.braintree-hosted-fields-valid {
+  border-color: limegreen;
+}
+</style>
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>checkout</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+
+<ion-content>
+  <div padding>
+  <ion-segment [(ngModel)]="currentStep">
+    <ion-segment-button disabled="true" value="Address">
+      Address
+    </ion-segment-button>
+    <ion-segment-button disabled="true" value="Payment">
+      Payment
+    </ion-segment-button>
+    <ion-segment-button disabled="true" value="Review">
+      Review
+    </ion-segment-button>
+  </ion-segment>
+</div>
+
+
+
+
+  <ion-list [hidden]="currentStep !== 'Address'">
+
+    <ion-item>
+      <ion-label fixed>Email address</ion-label>
+      <ion-input type="email" placeholder="john@example.com"  [(ngModel)]="address.email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Full name</ion-label>
+      <ion-input type="text" placeholder="John Doe" [(ngModel)]="address.full_name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Country</ion-label>
+      <ion-input type="text" placeholder="Moon" [(ngModel)]="address.country"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>State</ion-label>
+      <ion-input type="text" placeholder="Dark side of the moon"  [(ngModel)]="address.state"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>City</ion-label>
+      <ion-input type="text" placeholder="Hidden City"  [(ngModel)]="address.city"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Postal code</ion-label>
+      <ion-input type="text" placeholder="1234"  [(ngModel)]="address.postal_code"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>Address</ion-label>
+      <ion-input type="text" placeholder="Evergreen terrace 123"  [(ngModel)]="address.address1"></ion-input>
+    </ion-item>
+
+   
+
+  </ion-list>
+
+
+
+
+ <form id="payment-form" method="post" action="/" [hidden]="currentStep !== 'Payment'">
+      <ion-list>
+        <ion-list-header style="border-bottom: 1px solid #dedede;margin-bottom: 1px;">
+          Action : Select your desired rewards card
+        </ion-list-header>
+        <ng-container *ngFor="let dbsCustomerCard of dbsCustomerCardList">
+        <ion-item-sliding #slidingItem>
+          <ion-item (click)="selectCard(dbsCustomerCard, slidingItem)" *ngIf="dbsCustomerCard.cardDescription">
+            <ion-thumbnail item-start>
+              <img src="/assets/img/{{dbsCustomerCard.imgSrc}}">
+            </ion-thumbnail>
+            <h2>{{dbsCustomerCard.cardDescription}}</h2>
+            <p style="float: left">{{dbsCustomerCard.rewardsSchemes[0].schemeName + ' - ' + dbsCustomerCard.rewardsSchemes[0].schemeType}}</p>
+            <button disabled="true" [(hidden)]= "!dbsCustomerCard.selected" ion-button clear item-end style="float: right;font-size: 35px;"><ion-icon name="checkmark"></ion-icon></button>
+          </ion-item>
+          <ion-item-options disabled="false" side="left">
+            <button disabled="true" ion-button color="primary">
+              <ion-icon name="card"></ion-icon>
+              {{dbsCustomerCard.balance}} points
+            </button>
+          </ion-item-options>
+      </ion-item-sliding>
+      </ng-container>
+      </ion-list>
+
+       <ion-list *ngIf="selectedCard">
+          <ion-list-header style="border-bottom: 1px solid #dedede;margin-bottom: 1px;white-space: inherit;">
+            Action : Slide to specify points for card redemption
+          </ion-list-header>
+          <ion-item *ngIf="selectedCard">
+            <ion-card style="margin: 5px; border-radius: 7px;">
+              <ion-card-content style="padding: 31px;">
+              <h1 style="font-size : 1.4rem">Balance on selected card</h1>
+                <span style="font-size: 35px">{{selectedCard.pointBalance}}</span> Points
+                <ion-thumbnail item-start style="text-align: center;text-align: -webkit-center;">
+                  <img style="width: 130px;height: 130px;" src="/assets/img/{{selectedCard.imgSrc}}">
+                </ion-thumbnail>
+              <h2>{{selectedCard.cardDescription}}</h2>
+              <p style="float: left">{{selectedCard.rewardsSchemes[0].schemeName + ' - ' + selectedCard.rewardsSchemes[0].schemeType}}</p>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+          <ion-item *ngIf="selectedCard && loadRangeSlider">
+            <ion-range 
+              pin="true"
+              min="0"
+              max="{{selectedCard.pointBalance}}" 
+              name="pointBalance" 
+              [(ngModel)]="pointsToRedeem"
+              (ionChange)= "convertPoints()" 
+              color="danger">
+              <ion-label range-left>0</ion-label>
+              <ion-label range-right>{{selectedCard.pointBalance}}</ion-label>
+            </ion-range>
+          </ion-item>
+          <ion-item *ngIf="pointsToRedeem" style="text-align: center;">
+            <ion-icon style="font-size: 30px margin-right:10px;" name="card" item-start></ion-icon>
+            <span style="text-align: center;" item-end> Redeem</span>
+            <div><span style="text-align: right;font-size: 35px" item-end>{{pointsToRedeem}}</span>
+            <span style="">points</span></div>
+            <div><span style="text-align: right;" item-end> = </span></div>
+            <div><span style="text-align: right;font-size: 15px">{{conversionMatrix.currency}}</span><span style="text-align: right;font-size: 25px" item-end>$ {{convertedAmount}} </span></div>
+          </ion-item>
+      </ion-list>
+
+      <input type="submit" id="submitButton" style="visibility: hidden;">
+   
+</form>
+
+
+
+  <div [hidden]="currentStep !== 'Review'">
+    <ion-card>
+    <ion-card-header>Review</ion-card-header>
+    <ion-card-content *ngIf="cart.items.length === 0">
+      Your cart is empty!
+    </ion-card-content>
+   <ion-list no-lines>
+     <ion-item *ngFor="let product of cart.items; let i = index;">
+    <ion-avatar item-left>
+      <img src="{{product.images[0]}}">
+    </ion-avatar>
+    <h2>{{product.name}} <b>x {{product.quantity}}</b></h2>
+    <div [ngSwitch]="product?.price_discount">
+    <p *ngSwitchCase="true">€ <span st>{{product.price}}</span> <span>{{product.price_discount}}</span></p>
+    <p *ngSwitchDefault>€ <span style="text-decoration: line-through;">{{product.price}}</span> <span>{{product.price_discount}}</span></p>
+    </div>
+    <div>
+      <button primary large>
+      <ion-icon name="add" (click)="increaseQuantity(i)"></ion-icon>
+    </button>
+    <button primary large>
+    <ion-icon name="remove" (click)="decreaseQuantity(i)"></ion-icon>
+    </button>
+    </div>
+  </ion-item>
+</ion-list>
+  <ion-card-content *ngIf="cart.items.length > 0">
+      <div>Total for this order is $ {{cart.total}}</div>
+  </ion-card-content>
+ 
+    
+</ion-card>
+
+<!--TODO: Express Checkout re-integration -->
+<ion-card *ngIf="true">
+    <ion-card-header> DBS Rewards Summary</ion-card-header>
+    
+    <ion-card-content *ngIf="selectedCard">
+        <ion-grid>
+          <ion-row>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              DBS Reward Points
+            </ion-col>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              Amount per Point
+            </ion-col>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              Converted Amount for Redemption
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              {{pointsToRedeem}}
+            </ion-col>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              {{amountPerPoint}}
+            </ion-col>
+            <ion-col style="border-left: solid 1.5px #80808045;">
+              {{convertedAmount}}
+            </ion-col>
+          </ion-row>
+          <ion-row style="margin-top: 38px;text-align: right;">
+            <ion-col>
+              Remaining Balance
+            </ion-col>
+            <ion-col>
+              {{remainingBalance}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+    </ion-card-content>
+ 
+    
+</ion-card>
+
+  </div>
+
+
+
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+    
+      <button ion-button color="primary" block [disabled]="currentStep === 'Payment' && !selectedCard" (click)=proceedToNextStep() *ngIf="currentStep !== 'Review'">
+        Proceed
+      </button>
+
+      <button ion-button color="primary" block (click)=completeCheckoutVia2FA() *ngIf="currentStep === 'Review'">
+        Complete checkout via 2FA
+      </button>
+    
+  </ion-toolbar>
+</ion-footer>
+

@@ -1,0 +1,5 @@
+
+window.AWSC = window.AWSC || {};
+window.AWSC.r_auth = true;
+if (window.AWSC.onRAuth) window.AWSC.onRAuth();
+

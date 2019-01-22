@@ -1,0 +1,12 @@
+ {
+    "referenceId": "1010554457",
+    "redeemedAmount": {
+        "amount": 0.02,
+        "currency": "SGD"
+    },
+    "remainingPoints": 1000,
+    "remainingCashValue": {
+        "amount": 25,
+        "currency": "SGD"
+    }
+}
